@@ -1,10 +1,9 @@
 import logging
 
-from sales_trainer.config import load_config
-
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
+from sales_trainer.config import load_config
 
 cfg = load_config()
 app = Flask(__name__)

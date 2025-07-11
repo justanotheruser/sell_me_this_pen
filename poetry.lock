@@ -1733,6 +1733,46 @@ files = [
 Flask = ">=0.9"
 
 [[package]]
+name = "types-gevent"
+version = "25.4.0.20250516"
+description = "Typing stubs for gevent"
+optional = false
+python-versions = ">=3.9"
+groups = ["lint"]
+files = [
+    {file = "types_gevent-25.4.0.20250516-py3-none-any.whl", hash = "sha256:7326e6d3f0f40e238bf42b7b30717c55cc294777e0bb2a9ada9e7645413b21c2"},
+    {file = "types_gevent-25.4.0.20250516.tar.gz", hash = "sha256:d21a623ea00223758980f2aea6c209e4aa6114bebb9434206dec1c4f3cb684d5"},
+]
+
+[package.dependencies]
+types-greenlet = "*"
+types-psutil = "*"
+
+[[package]]
+name = "types-greenlet"
+version = "3.2.0.20250417"
+description = "Typing stubs for greenlet"
+optional = false
+python-versions = ">=3.9"
+groups = ["lint"]
+files = [
+    {file = "types_greenlet-3.2.0.20250417-py3-none-any.whl", hash = "sha256:7798b9fdf19d718a62e2d63351e112e7bee622898c6e6cec539296c3dec27808"},
+    {file = "types_greenlet-3.2.0.20250417.tar.gz", hash = "sha256:eb006afcf281ec5756a75c1fd4a6c8a7be5d0cc09b2e82c4856c764760cfa0e3"},
+]
+
+[[package]]
+name = "types-psutil"
+version = "7.0.0.20250601"
+description = "Typing stubs for psutil"
+optional = false
+python-versions = ">=3.9"
+groups = ["lint"]
+files = [
+    {file = "types_psutil-7.0.0.20250601-py3-none-any.whl", hash = "sha256:0c372e2d1b6529938a080a6ba4a9358e3dfc8526d82fabf40c1ef9325e4ca52e"},
+    {file = "types_psutil-7.0.0.20250601.tar.gz", hash = "sha256:71fe9c4477a7e3d4f1233862f0877af87bff057ff398f04f4e5c0ca60aded197"},
+]
+
+[[package]]
 name = "types-pyyaml"
 version = "6.0.12.20250516"
 description = "Typing stubs for PyYAML"
@@ -2048,4 +2088,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "144c241077dec496553efbbf6c36591b3d32418e7e48725855f3b700754cc67f"
+content-hash = "0805603e8b78ffa2312e4e1746a7080b387b232498c79d9c8e1ae376413bd380"

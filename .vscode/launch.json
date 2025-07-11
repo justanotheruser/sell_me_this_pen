@@ -5,14 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Flask server",
+            "name": "Flask sync",
             "type": "debugpy",
             "request": "launch",
             "python": ".venv/bin/python",
-            "program": "app/main.py",
+            "program": "sales_trainer/app.py",
             "justMyCode": false,
             "console": "integratedTerminal",
             "jinja": false
+        },
+        {
+            "name": "Flask gevent",
+            "type": "debugpy",
+            "request": "launch",
+            "python": ".venv/bin/python",
+            "program": "sales_trainer/pywsgi.py",
+            "justMyCode": false,
+            "console": "integratedTerminal",
+            "jinja": false,
+            "env": {
+                "GEVENT_SUPPORT": "True"
+            }
         }
     ]
 }
