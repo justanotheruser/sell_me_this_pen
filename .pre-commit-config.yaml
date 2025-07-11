@@ -35,13 +35,13 @@ repos:
         args: ["--verbose"]
         exclude: tests/.*$
         name: bandit
-        entry: bash -c 'bandit -r ./app/* -c ./pyproject.toml'
+        entry: bash -c 'bandit -r ./sales_trainer/* -c ./pyproject.toml'
         language: python
         types: [python]
       - id: mypy
         name: mypy
         args: ["--verbose"]
-        entry: bash -c 'mypy app'
+        entry: bash -c 'mypy sales_trainer'
         language: python
         require_serial: true
         types: [python]

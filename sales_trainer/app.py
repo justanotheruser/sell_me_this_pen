@@ -1,10 +1,14 @@
 import logging
 
+from sales_trainer.config import load_config
+
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
+
+cfg = load_config()
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, async_mode="gevent", cors_allowed_origins="*")
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 

@@ -8,7 +8,8 @@
             "name": "Flask server",
             "type": "debugpy",
             "request": "launch",
-            "program": "app/app.py",
+            "python": ".venv/bin/python",
+            "program": "app/main.py",
             "justMyCode": false,
             "console": "integratedTerminal",
             "jinja": false

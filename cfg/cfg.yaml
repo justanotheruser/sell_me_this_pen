@@ -1,0 +1,5 @@
+testing: true
+
+chat:
+  giga_chat_token: '***'
+  prompt: "***"
