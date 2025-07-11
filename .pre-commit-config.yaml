@@ -1,0 +1,47 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+# https://stackoverflow.com/questions/64935598/git-pre-commit-get-all-python-files
+default_language_version:
+  python: python3.12
+
+default_stages: [pre-commit, pre-push]
+
+repos:
+  - repo: local
+    hooks:
+      - id: flake8
+        name: flake8
+        args: ["--verbose"]
+        description: Command-line utility for enforcing style consistency across Python projects.
+        entry: flake8
+        language: python
+        require_serial: true
+        types: [python]
+      - id: black
+        name: black
+        args: ["--verbose"]
+        description: The uncompromising Python code formatter
+        entry: black .
+        language: python
+        require_serial: true
+        types: [python]
+      - id: isort
+        name: isort
+        entry: isort .
+        require_serial: true
+        language: python
+        types: [python]
+      - id: bandit
+        args: ["--verbose"]
+        exclude: tests/.*$
+        name: bandit
+        entry: bash -c 'bandit -r ./app/* -c ./pyproject.toml'
+        language: python
+        types: [python]
+      - id: mypy
+        name: mypy
+        args: ["--verbose"]
+        entry: bash -c 'mypy app'
+        language: python
+        require_serial: true
+        types: [python]
