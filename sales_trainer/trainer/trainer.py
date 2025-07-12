@@ -7,24 +7,25 @@ from langchain_core.messages import (
 )
 from langchain_gigachat.chat_models import GigaChat
 
-from sales_trainer.config import TrainerConfig
+from sales_trainer.trainer.config import TrainerConfigWithAuth
 
 logger = logging.getLogger(__name__)
 
 
 class GigachatTrainer:
-    def __init__(self, cfg: TrainerConfig) -> None:
+    def __init__(self, cfg: TrainerConfigWithAuth) -> None:
         self.cfg = cfg
+        # TODO: recreate GigaChat with fresh access token if invoke fails with auth error
         self.giga = GigaChat(
-            access_token=self.cfg.giga_chat_token.get_secret_value(), verify_ssl_certs=False
+            access_token=self.cfg.access_token.get_secret_value(), verify_ssl_certs=False  # type: ignore
         )
-        self.is_started = False
+        self.messages: list[MessageLikeRepresentation] = [
+            SystemMessage(content=self.cfg.prompt.get_secret_value())
+        ]
 
     def invoke(self, message: str) -> str:
-        messages: list[MessageLikeRepresentation] = [HumanMessage(message)]
-        if not self.is_started:
-            messages = [SystemMessage(content=self.cfg.prompt.get_secret_value())] + messages
-        resp = self.giga.invoke(messages)
+        self.messages.append(HumanMessage(message))
+        resp = self.giga.invoke(self.messages)
         self.is_started = True
         logger.info(f"Model used: {resp.response_metadata['model_name']}")
         logger.info(f"Tokens used: {resp.response_metadata['token_usage']}")

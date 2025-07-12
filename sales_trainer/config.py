@@ -2,18 +2,14 @@ import os
 from pathlib import Path
 from typing import Any
 
-from pydantic import SecretStr
 from pydantic_settings import BaseSettings
 from yaml import safe_load
+
+from sales_trainer.trainer.config import TrainerConfig
 
 
 class HttpConfig(BaseSettings):
     allow_origins: list[str]
-
-
-class TrainerConfig(BaseSettings):
-    giga_chat_token: SecretStr
-    prompt: SecretStr
 
 
 class Config(BaseSettings):
