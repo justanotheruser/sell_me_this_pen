@@ -1,6 +1,10 @@
 import logging
 
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import (
+    HumanMessage,
+    MessageLikeRepresentation,
+    SystemMessage,
+)
 from langchain_gigachat.chat_models import GigaChat
 
 from sales_trainer.config import TrainerConfig
@@ -17,7 +21,7 @@ class GigachatTrainer:
         self.is_started = False
 
     def invoke(self, message: str) -> str:
-        messages = [HumanMessage(message)]
+        messages: list[MessageLikeRepresentation] = [HumanMessage(message)]
         if not self.is_started:
             messages = [SystemMessage(content=self.cfg.prompt.get_secret_value())] + messages
         resp = self.giga.invoke(messages)
@@ -25,4 +29,4 @@ class GigachatTrainer:
         logger.info(f"Model used: {resp.response_metadata['model_name']}")
         logger.info(f"Tokens used: {resp.response_metadata['token_usage']}")
         logger.info(f"LLM answer: {resp.content}")
-        return resp.content
+        return resp.content  # type: ignore[return-value]
