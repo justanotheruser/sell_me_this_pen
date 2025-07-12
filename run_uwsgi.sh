@@ -1,0 +1,1 @@
+uwsgi --http :8080 --gevent 1000 --http-websockets --master --wsgi-file sales_trainer/pywsgi.py --callable app
