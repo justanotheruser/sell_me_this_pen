@@ -8,7 +8,9 @@ from sales_trainer.config import config
 from sales_trainer.trainer.trainer_store import trainer_store_factory
 
 app = Flask(__name__)
-socketio = SocketIO(app, async_mode="gevent", cors_allowed_origins="*")
+socketio = SocketIO(
+    app, async_mode="gevent", cors_allowed_origins="*", engineio_logger=True, logger=True
+)
 scheduler = Scheduler()
 scheduler.start_in_background()
 logger = logging.getLogger(__name__)
