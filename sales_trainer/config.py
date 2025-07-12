@@ -13,7 +13,7 @@ class HttpConfig(BaseSettings):
 
 
 class Config(BaseSettings):
-    # http: HttpConfig
+    http: HttpConfig
     testing: bool
     trainer: TrainerConfig
 

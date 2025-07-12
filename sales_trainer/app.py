@@ -9,7 +9,7 @@ from sales_trainer.trainer.trainer_store import trainer_store_factory
 
 app = Flask(__name__)
 socketio = SocketIO(
-    app, async_mode="gevent_uwsgi", cors_allowed_origins="*", engineio_logger=True, logger=True
+    app, cors_allowed_origins=config.http.allow_origins, engineio_logger=True, logger=True
 )
 scheduler = Scheduler()
 scheduler.start_in_background()
@@ -24,13 +24,11 @@ def index():
 
 @socketio.on('connect')
 def handle_connect():
-    try:
-        logger.debug(f'Client {request.sid} connected')  # type: ignore
-        trainer_store = trainer_store_factory(config=config.trainer, scheduler=scheduler)
-        trainer_store.add(request.sid)
-        emit('message', "Продайте мне эту ручку")
-    except Exception as err:
-        logger.error(err)
+    logger.debug(f'Client {request.sid} connected')  # type: ignore
+    trainer_store = trainer_store_factory(config=config.trainer, scheduler=scheduler)
+    trainer_store.add(request.sid)
+    emit('message', "Продайте мне эту ручку")
+
 
 
 @socketio.on('disconnect')

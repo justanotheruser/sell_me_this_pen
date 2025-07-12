@@ -1,5 +1,5 @@
-//const socket = io("ws://localhost:8080");
-const socket = io("ws//sellmethispen.ru:80");
+const socket = io("ws://localhost:8080");
+//const socket = io("ws://sellmethispen.ru:80");
 
 socket.on("message", (text) => {
   const el = document.createElement("li");

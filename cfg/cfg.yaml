@@ -1,4 +1,8 @@
-testing: false
+testing: true
+
+http:
+  allow_origins:
+  - http://localhost:8080
 
 trainer:
   gigachat_auth_url: 'https://ngw.devices.sberbank.ru:9443/api/v2/oauth'

@@ -1,0 +1,1 @@
+uwsgi --ini ./prod_uwsgi.ini 
