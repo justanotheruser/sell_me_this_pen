@@ -1,11 +1,10 @@
 import logging
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 
-from sales_trainer.config import load_config
+from sales_trainer.trainer_store import trainer_store
 
-cfg = load_config()
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode="gevent", cors_allowed_origins="*")
 logger = logging.getLogger(__name__)
@@ -19,18 +18,25 @@ def index():
 
 @socketio.on('connect')
 def handle_connect():
-    logger.debug('Client connected')
+    logger.debug(f'Client {request.sid} connected')  # type: ignore
+    trainer_store.add(request.sid)
+    emit('message', "Продайте мне эту ручку")
 
 
 @socketio.on('disconnect')
 def handle_disconnect(reason):
-    logger.debug(f'Client disconnected: {reason}')
+    logger.debug(f'Client {request.sid} disconnected: {reason}')  # type: ignore
+    trainer_store.remove(request.sid)
 
 
 @socketio.on('message')
 def handle_message(data):
-    logger.info(f'Received message from {data}')
-    emit('message', f'Echo: {data}')
+    logger.info(f'Received message from {request.sid}')
+    trainer = trainer_store.get(request.sid)
+    if not trainer:
+        return
+    response = trainer.invoke(data)
+    emit('message', response)
 
 
 if __name__ == '__main__':

@@ -11,7 +11,7 @@ class HttpConfig(BaseSettings):
     allow_origins: list[str]
 
 
-class ChatAgentConfig(BaseSettings):
+class TrainerConfig(BaseSettings):
     giga_chat_token: SecretStr
     prompt: SecretStr
 
@@ -19,7 +19,7 @@ class ChatAgentConfig(BaseSettings):
 class Config(BaseSettings):
     # http: HttpConfig
     testing: bool
-    chat: ChatAgentConfig
+    trainer: TrainerConfig
 
 
 def load_config(path: Path | None = None) -> Config:
@@ -34,3 +34,6 @@ def load_yaml(path: Path) -> dict[str, Any]:
     if not isinstance(config, dict):
         raise TypeError(f"Config file has no top-level mapping: {path}")
     return config
+
+
+config = load_config()

@@ -1,5 +1,6 @@
 testing: true
 
-chat:
+trainer:
   giga_chat_token: '***'
-  prompt: "***"
+
+  prompt: '***'
