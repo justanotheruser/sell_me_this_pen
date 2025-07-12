@@ -22,10 +22,13 @@ def index():
 
 @socketio.on('connect')
 def handle_connect():
-    logger.debug(f'Client {request.sid} connected')  # type: ignore
-    trainer_store = trainer_store_factory(config=config.trainer, scheduler=scheduler)
-    trainer_store.add(request.sid)
-    emit('message', "Продайте мне эту ручку")
+    try:
+        logger.debug(f'Client {request.sid} connected')  # type: ignore
+        trainer_store = trainer_store_factory(config=config.trainer, scheduler=scheduler)
+        trainer_store.add(request.sid)
+        emit('message', "Продайте мне эту ручку")
+    except Exception as err:
+        logger.error(err)
 
 
 @socketio.on('disconnect')
