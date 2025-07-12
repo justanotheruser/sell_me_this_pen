@@ -1,6 +1,7 @@
 import logging
 
 from langchain_core.messages import (
+    AIMessage,
     HumanMessage,
     MessageLikeRepresentation,
     SystemMessage,
@@ -20,7 +21,8 @@ class GigachatTrainer:
             access_token=self.cfg.access_token.get_secret_value(), verify_ssl_certs=False  # type: ignore
         )
         self.messages: list[MessageLikeRepresentation] = [
-            SystemMessage(content=self.cfg.prompt.get_secret_value())
+            SystemMessage(content=self.cfg.prompt.get_secret_value()),
+            AIMessage(content="Продайте мне эту ручку"),
         ]
 
     def invoke(self, message: str) -> str:
@@ -30,4 +32,5 @@ class GigachatTrainer:
         logger.info(f"Model used: {resp.response_metadata['model_name']}")
         logger.info(f"Tokens used: {resp.response_metadata['token_usage']}")
         logger.info(f"LLM answer: {resp.content}")
+        self.messages.append(AIMessage(content=resp.content))
         return resp.content  # type: ignore[return-value]
