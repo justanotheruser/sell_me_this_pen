@@ -1,9 +1,13 @@
 import os
 from pathlib import Path
-from typing import Any
 
-from pydantic_settings import BaseSettings
-from yaml import safe_load
+from pydantic_settings import (
+    BaseSettings,
+    DotEnvSettingsSource,
+    PydanticBaseSettingsSource,
+    SettingsConfigDict,
+    YamlConfigSettingsSource,
+)
 
 from sales_trainer.trainer.config import TrainerConfig
 
@@ -19,24 +23,44 @@ class HostingConfig(BaseSettings):
     cors: CorsConfig
 
 
+config_dir = Path(os.path.dirname(os.path.abspath(__file__))) / '..' / 'cfg'
+
+
 class Config(BaseSettings):
-    testing: bool
+    testing: bool = False
     hosting: HostingConfig
     trainer: TrainerConfig
 
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,
+        file_secret_settings: PydanticBaseSettingsSource,
+    ) -> tuple[PydanticBaseSettingsSource, ...]:
+        """Порядок, в котором используются значения (более поздние перезаписывают более ранние):
+        - значения по-умолчанию
+        - yaml-файл
+        - .env-файл
+        - переменные окружения
+        """
+        return (
+            env_settings,
+            DotEnvSettingsSource(
+                settings_cls, env_file=config_dir / '.env', env_file_encoding='utf-8'
+            ),
+            YamlConfigSettingsSource(
+                settings_cls, yaml_file=config_dir / 'cfg.yaml', yaml_file_encoding='utf-8'
+            ),
+            init_settings,
+        )
 
-def load_config(path: Path | None = None) -> Config:
-    if not path:
-        path = Path(os.path.dirname(os.path.abspath(__file__))) / '..' / 'cfg' / 'cfg.yaml'
-    return Config(**load_yaml(path))
+    model_config = SettingsConfigDict(
+        env_nested_delimiter='__',
+        case_sensitive=False,
+    )
 
 
-def load_yaml(path: Path) -> dict[str, Any]:
-    with open(path, 'r') as f:
-        config = safe_load(f)
-    if not isinstance(config, dict):
-        raise TypeError(f"Config file has no top-level mapping: {path}")
-    return config
-
-
-config = load_config()
+config = Config()  # type: ignore[call-arg]
