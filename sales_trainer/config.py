@@ -8,13 +8,20 @@ from yaml import safe_load
 from sales_trainer.trainer.config import TrainerConfig
 
 
-class HttpConfig(BaseSettings):
+class CorsConfig(BaseSettings):
     allow_origins: list[str]
 
 
+class HostingConfig(BaseSettings):
+    # Domain and port visible from the Internet
+    domain: str
+    port: int
+    cors: CorsConfig
+
+
 class Config(BaseSettings):
-    http: HttpConfig
     testing: bool
+    hosting: HostingConfig
     trainer: TrainerConfig
 
 

@@ -1,5 +1,4 @@
-const socket = io("ws://localhost:8080");
-//const socket = io("ws://sellmethispen.ru:80");
+const socket = io(`ws://${DOMAIN}:${PORT}`);
 
 function add_message_to_dialog(text) {
   const el = document.createElement("li");

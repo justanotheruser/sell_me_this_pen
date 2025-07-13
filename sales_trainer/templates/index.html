@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sell Me This Pen - Sales Training</title>
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+    <script>
+        const DOMAIN = "{{ domain }}";
+        const PORT = {{ port }};
+    </script>
     <script defer src="{{url_for('static', filename='app.js')}}"></script>
     <style>
         * {

@@ -8,9 +8,7 @@ from sales_trainer.config import config
 from sales_trainer.trainer.trainer_store import trainer_store_factory
 
 app = Flask(__name__)
-socketio = SocketIO(
-    app, cors_allowed_origins=config.http.allow_origins, engineio_logger=True, logger=True
-)
+socketio = SocketIO(app, cors_allowed_origins=config.hosting.cors.allow_origins)
 scheduler = Scheduler()
 scheduler.start_in_background()
 logger = logging.getLogger(__name__)
@@ -19,7 +17,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', domain=config.hosting.domain, port=config.hosting.port)
 
 
 @socketio.on('connect')
@@ -28,7 +26,6 @@ def handle_connect():
     trainer_store = trainer_store_factory(config=config.trainer, scheduler=scheduler)
     trainer_store.add(request.sid)
     emit('message', "Продайте мне эту ручку")
-
 
 
 @socketio.on('disconnect')
@@ -50,5 +47,4 @@ def handle_message(data):
 
 
 if __name__ == '__main__':
-    # socketio.run(app, host='localhost', port=8080, debug=True)
     socketio.run(app, host='localhost', port=8080)

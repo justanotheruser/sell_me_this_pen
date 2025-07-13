@@ -18,7 +18,8 @@ class GigachatTrainer:
         self.cfg = cfg
         # TODO: recreate GigaChat with fresh access token if invoke fails with auth error
         self.giga = GigaChat(
-            access_token=self.cfg.access_token.get_secret_value(), verify_ssl_certs=False  # type: ignore
+            access_token=self.cfg.access_token.get_secret_value(),  # type: ignore
+            verify_ssl_certs=False,
         )
         self.messages: list[MessageLikeRepresentation] = [
             SystemMessage(content=self.cfg.prompt.get_secret_value()),

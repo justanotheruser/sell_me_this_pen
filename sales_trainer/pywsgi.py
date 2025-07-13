@@ -7,5 +7,4 @@ monkey.patch_all()
 from sales_trainer.app import app, socketio  # noqa[E402]
 
 if __name__ == '__main__':
-    # socketio.run(app, host='localhost', port=8080, debug=True)
     socketio.run(app, host='localhost', port=8080)
