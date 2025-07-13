@@ -60,7 +60,7 @@ class TrainerStore:
             logger.error(f"Error making request: {e}")
             return None
         access_token = SecretStr(json_response['access_token'])
-        self.access_token = access_token
+        self.cfg.access_token = access_token
         return access_token
 
 
